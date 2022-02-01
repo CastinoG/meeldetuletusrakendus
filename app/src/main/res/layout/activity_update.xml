@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LisaActivity">
+
+    <Button
+        android:id="@+id/kella_nupp2"
+        style="?android:spinnerStyle"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="44dp"
+        android:onClick="popTimePicker"
+        android:text="Vali aeg"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="@+id/kuupaeva_nupp2"
+        app:layout_constraintStart_toStartOf="@+id/kuupaeva_nupp2"
+        app:layout_constraintTop_toBottomOf="@+id/kuupaeva_nupp2" />
+
+    <Button
+        android:id="@+id/kuupaeva_nupp2"
+        style="?android:spinnerStyle"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="44dp"
+        android:onClick="openDatePicker"
+        android:text="Kuupäev"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kirjeldus_input2" />
+
+    <EditText
+        android:id="@+id/meeldetuletus_input2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="30dp"
+        android:ems="10"
+        android:hint="Meeldetuletus"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/kirjeldus_input2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="30dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Kirjeldus"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meeldetuletus_input2" />
+
+    <Button
+        android:id="@+id/uuendamise_nupp"
+        android:layout_width="351dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="44dp"
+        android:text="Uuenda"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kella_nupp2" />
+
+    <Button
+        android:id="@+id/kustutamise_nupp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="30dp"
+        android:text="Kustuta"
+        android:textColor="#BD0D0D"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uuendamise_nupp"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
