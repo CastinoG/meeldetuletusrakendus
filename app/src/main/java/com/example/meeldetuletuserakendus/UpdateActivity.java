@@ -181,7 +181,7 @@ public class UpdateActivity extends AppCompatActivity {
         if(kuu == 12)
             return "Detsember";
 
-        return "JAN";
+        return "JAANUAR";
     }
 
     public void openDatePicker(View view) {
