@@ -10,9 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Meeldetuletuserakendus">
         <activity
+            android:name=".MeeldetuletusActivity"
+            android:exported="true"
+            android:label="Lisa lühiajaline meeldetuletus"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".UpdateActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".LisaActivity"
             android:exported="true"
@@ -21,13 +26,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="Meeldetuletused">
+            android:label="Märkmik">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".NotificationPublisher"></receiver>
     </application>
 
 </manifest>
