@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/teavituseFragment3">
+    <fragment
+        android:id="@+id/peamineFragment"
+        android:name="com.example.meeldetuletuserakendus.PeamineFragment"
+        android:label="fragment_peamine"
+        tools:layout="@layout/fragment_peamine" />
+    <fragment
+        android:id="@+id/teavituseFragment3"
+        android:name="com.example.meeldetuletuserakendus.TeavituseFragment"
+        android:label="fragment_teavituse"
+        tools:layout="@layout/fragment_teavituse" />
+</navigation>

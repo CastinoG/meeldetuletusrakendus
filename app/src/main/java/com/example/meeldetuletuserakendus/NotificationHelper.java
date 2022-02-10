@@ -34,8 +34,8 @@ class NotificationHelper extends ContextWrapper {
     }
     public NotificationCompat.Builder getChannelNotification() {
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Scheduled Alert")
-                .setContentText("Your Alert is Ringing")
+                .setContentTitle("Meeldetuletus")
+                .setContentText("Teie valitud aeg on käes")
                 .setSmallIcon(R.drawable.ic_baseline_notifications_active_24);
     }
 }
