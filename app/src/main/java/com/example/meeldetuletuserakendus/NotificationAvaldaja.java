@@ -7,12 +7,12 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
-public class NotificationPublisher extends BroadcastReceiver {
+public class NotificationAvaldaja extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
-        notificationHelper.getManager().notify(3, nb.build());
+        NotificationAbistaja notificationAbistaja = new NotificationAbistaja(context);
+        NotificationCompat.Builder nb = notificationAbistaja.getChannelNotification();
+        notificationAbistaja.getManager().notify(4, nb.build());
         Notification notification = nb.build();
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notification.defaults |= Notification.DEFAULT_SOUND;

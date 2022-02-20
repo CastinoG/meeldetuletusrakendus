@@ -2,9 +2,13 @@ package com.example.meeldetuletuserakendus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +19,7 @@ import android.widget.TimePicker;
 import java.time.Clock;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class LisaActivity extends AppCompatActivity {
 
@@ -31,7 +36,8 @@ public class LisaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lisa);
         initDatePicker();
         kuupaeva_nupp = findViewById(R.id.kuupaeva_nupp);
-        kuupaeva_nupp.setText(tananeKuupaev());
+
+
 
         kella_nupp = findViewById(R.id.kella_nupp);
 
@@ -47,10 +53,10 @@ public class LisaActivity extends AppCompatActivity {
                         kirjeldus_input.getText().toString().trim(),
                         kuupaev.trim(),
                         kell.trim());
+
             }
         });
     }
-
     private String tananeKuupaev() {
         Calendar cal = Calendar.getInstance();
         int aasta = cal.get(Calendar.YEAR);
@@ -64,8 +70,8 @@ public class LisaActivity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int aasta, int kuu, int paev) {
-                kuu = kuu + 1;
-                kuupaev = makeDateString(paev, kuu, aasta);
+                int kuus = kuu + 1;
+                kuupaev = makeDateString(paev, kuus, aasta);
                 kuupaeva_nupp.setText(kuupaev);
 
             }
@@ -125,7 +131,6 @@ public class LisaActivity extends AppCompatActivity {
 
     public void popTimePicker(View view) {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 hour = selectedHour;
                 minute = selectedMinute;

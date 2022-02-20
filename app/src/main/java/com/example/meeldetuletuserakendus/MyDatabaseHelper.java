@@ -86,9 +86,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if(tulemus == -1) {
             Toast.makeText(context, "Uuendamine ebaõnnestus!", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(context, "Uuendatud!", Toast.LENGTH_SHORT).show();
+
         }
     }
+
 
     void deleteOneRow(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();

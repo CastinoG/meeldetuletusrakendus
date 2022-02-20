@@ -34,8 +34,8 @@ class NotificationHelper extends ContextWrapper {
     }
     public NotificationCompat.Builder getChannelNotification() {
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Meeldetuletus")
-                .setContentText("Teie valitud aeg on käes")
+                .setContentTitle("Meeldetuletus!")
+                .setContentText("Ühe teie meeldetuletuse aeg on käes!")
                 .setSmallIcon(R.drawable.ic_baseline_notifications_active_24);
     }
 }

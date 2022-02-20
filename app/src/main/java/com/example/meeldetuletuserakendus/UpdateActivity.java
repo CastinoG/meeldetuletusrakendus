@@ -4,9 +4,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,13 +21,15 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class UpdateActivity extends AppCompatActivity {
 
     EditText meeldetuletus_input, kirjeldus_input;
-    Button uuendamise_nupp, kustutamise_nupp, kuupaeva_nupp, kella_nupp;
+    Button uuendamise_nupp, kustutamise_nupp, kuupaeva_nupp, kella_nupp, meeldetuletuse_nupp;
     private DatePickerDialog datePickerDialog;
     int hour, minute;
+    Calendar kalender;
 
 
     String id, pealkiri, kirjeldus, kuupaev, kell;
@@ -34,11 +40,15 @@ public class UpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update);
         initDatePicker();
 
+        kalender = Calendar.getInstance();
+
         meeldetuletus_input = findViewById(R.id.meeldetuletus_input2);
         kirjeldus_input = findViewById(R.id.kirjeldus_input2);
         kuupaeva_nupp = findViewById(R.id.kuupaeva_nupp2);
+
         uuendamise_nupp = findViewById(R.id.uuendamise_nupp);
         kustutamise_nupp = findViewById(R.id.kustutamise_nupp);
+        meeldetuletuse_nupp = findViewById(R.id.meeldetuletuse_nupp);
         kella_nupp = findViewById(R.id.kella_nupp2);
 
         getAndSetIntentData();
@@ -57,10 +67,25 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                 myDB.updateData(id, pealkiri, kirjeldus, kuupaev, kell);
+                Toast.makeText(UpdateActivity.this, "Uuendatud!", Toast.LENGTH_SHORT).show();
                 finish();
 
             }
         });
+
+        meeldetuletuse_nupp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alustaAlarm(kalender);
+                MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
+                pealkiri=meeldetuletus_input.getText().toString().trim();
+                kirjeldus=kirjeldus_input.getText().toString().trim();
+
+                myDB.updateData(id, pealkiri, kirjeldus, kuupaev, kell);
+                Toast.makeText(UpdateActivity.this, "Info uuendatud ja meeldetuletus tehtud!", Toast.LENGTH_LONG).show();
+            }
+        });
+
         kustutamise_nupp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +98,33 @@ public class UpdateActivity extends AppCompatActivity {
 
 
     }
+
+    private void katkestaAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent = new Intent(getApplicationContext(), NotificationPublisher.class);
+        int channelID = Integer.parseInt(id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getApplicationContext(), channelID, myIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.cancel(pendingIntent);
+    }
+
+
+
+    private void alustaAlarm(Calendar kalender) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationPublisher.class);
+        int channelID = Integer.parseInt(id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, channelID, intent, 0);
+        if (kalender.before(Calendar.getInstance())) {
+            kalender.add(Calendar.DATE, channelID);
+        }
+        Objects.requireNonNull(alarmManager).setExact(AlarmManager.RTC_WAKEUP,
+                kalender.getTimeInMillis(), pendingIntent);
+    }
+
+
 
     void getAndSetIntentData() {
         if(getIntent().hasExtra("id") && getIntent().hasExtra("pealkiri") && getIntent().hasExtra("kirjeldus") && getIntent().hasExtra("kuupaev") && getIntent().hasExtra("kell")) {
@@ -103,6 +155,7 @@ public class UpdateActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
                 myDB.deleteOneRow(id);
+                katkestaAlarm();
                 finish();
 
             }
@@ -117,21 +170,17 @@ public class UpdateActivity extends AppCompatActivity {
 
     }
 
-    private String tananeKuupaev() {
-        Calendar cal = Calendar.getInstance();
-        int aasta = cal.get(Calendar.YEAR);
-        int kuu = cal.get(Calendar.MONTH);
-        kuu = kuu + 1;
-        int paev = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(paev, kuu, aasta);
-    }
 
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int aasta, int kuu, int paev) {
-                kuu = kuu + 1;
-                kuupaev = makeDateString(paev, kuu, aasta);
+                int kuus = kuu + 1;
+                kuupaev = makeDateString(paev, kuus, aasta);
+                kalender.set(Calendar.YEAR, aasta);
+                kalender.set(Calendar.MONTH, kuu);
+
+                kalender.set(Calendar.DAY_OF_MONTH, paev);
                 kuupaeva_nupp.setText(kuupaev);
 
             }
@@ -194,6 +243,9 @@ public class UpdateActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 hour = selectedHour;
                 minute = selectedMinute;
+                kalender.set(Calendar.HOUR_OF_DAY, selectedHour);
+                kalender.set(Calendar.MINUTE, selectedMinute);
+                kalender.set(Calendar.SECOND, 0);
                 kella_nupp.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
                 kell = String.valueOf(kella_nupp.getText());
 
@@ -206,6 +258,10 @@ public class UpdateActivity extends AppCompatActivity {
 
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, true);
+
+
+
+
 
 
 

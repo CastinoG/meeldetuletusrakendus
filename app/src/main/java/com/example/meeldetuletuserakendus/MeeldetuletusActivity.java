@@ -21,10 +21,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class MeeldetuletusActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
-    String timeText;
-    TextView textTime;
-    Button nupp_vali, nupp_katkesta, nupp_kuupaev, nupp_alarm;
+public class MeeldetuletusActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
+    Button nupp_vali, nupp_katkesta;
     Calendar c;
 
 
@@ -36,19 +34,9 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
 
         nupp_vali = findViewById(R.id.button2);
         nupp_katkesta = findViewById(R.id.nupp_katkesta);
-        nupp_kuupaev = findViewById(R.id.button);
-        nupp_alarm = findViewById(R.id.button3);
 
         c = Calendar.getInstance();
 
-        nupp_alarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startAlarm(c);
-
-
-            }
-        });
 
         nupp_vali.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,14 +44,6 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
 
-            }
-        });
-
-        nupp_kuupaev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment kuupaevaValija = new KuupaevaFragment();
-                kuupaevaValija.show(getSupportFragmentManager(), "date picker");
             }
         });
 
@@ -87,23 +67,19 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         c.set(Calendar.SECOND, 0);
-    }
-
-
-    public void onDateSet (DatePicker view, int aasta, int kuu, int paev) {
-        c.set(Calendar.YEAR, aasta);
-        c.set(Calendar.MONTH, kuu);
-        c.set(Calendar.DAY_OF_MONTH, paev);
+        alustaTeavitus(c);
+        Toast.makeText(MeeldetuletusActivity.this, "Meeldetuletus tehtud", Toast.LENGTH_SHORT).show();
     }
 
 
 
-    private void startAlarm(Calendar c) {
+
+    private void alustaTeavitus(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationPublisher.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        Intent intent = new Intent(this, NotificationAvaldaja.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 888888, intent, 0);
         if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1);
+            c.add(Calendar.DATE, 888888);
         }
         Objects.requireNonNull(alarmManager).setExact(AlarmManager.RTC_WAKEUP,
                 c.getTimeInMillis(), pendingIntent);
@@ -111,9 +87,9 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
 
     private void katkestaAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent myIntent = new Intent(getApplicationContext(), NotificationPublisher.class);
+        Intent myIntent = new Intent(getApplicationContext(), NotificationAvaldaja.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getApplicationContext(), 1, myIntent,
+                getApplicationContext(), 888888, myIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.cancel(pendingIntent);
