@@ -14,7 +14,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     private static final String DATABASE_NAME = "Meeldetuletused.db";
     private static final int DATABASE_VERSION = 1;
-
     private static final String TABLE_NAME = "minu_meeldetuletused";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_PEALKIRI = "meeldetuletus_pealkiri";
@@ -36,20 +35,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_KUUPAEV + " TEXT, " +
                         COLUMN_KELL+ " TEXT);";
         db.execSQL(query);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
-
     }
 
     void lisaMeeldetuletus(String pealkiri, String kirjeldus, String kuupaev, String kell) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
         cv.put(COLUMN_PEALKIRI, pealkiri);
         cv.put(COLUMN_KIRJELDUS, kirjeldus);
         cv.put(COLUMN_KUUPAEV, kuupaev);
@@ -62,7 +58,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    Cursor readAllData() {
+    Cursor loeInfot() {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -73,7 +69,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    void updateData(String row_id, String pealkiri, String kirjeldus, String kuupaev, String kell) {
+    void uuendaInfot(String row_id, String pealkiri, String kirjeldus, String kuupaev, String kell) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_PEALKIRI, pealkiri);
@@ -81,22 +77,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_KUUPAEV, kuupaev);
         cv.put(COLUMN_KELL, kell);
 
-
         long tulemus = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
         if(tulemus == -1) {
             Toast.makeText(context, "Uuendamine ebaõnnestus!", Toast.LENGTH_SHORT).show();
         }else {
-
         }
     }
 
-
-    void deleteOneRow(String row_id){
+    void kustutaRida(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME, "_id=?", new String[]{row_id});
         if (result == -1){
             Toast.makeText(context, "Kustutamine ebaõnnestus", Toast.LENGTH_SHORT).show();
-
         } else {
             Toast.makeText(context, "Kustutatud!", Toast.LENGTH_SHORT).show();
         }

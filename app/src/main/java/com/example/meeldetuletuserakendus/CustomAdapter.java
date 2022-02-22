@@ -24,9 +24,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private Context context;
     Activity activity;
     private ArrayList meeldetuletus_id, meeldetuletus_pealkiri, meeldetuletus_kirjeldus, meeldetuletus_kuupaev, meeldetuletus_kell;
-
     Animation translate_anim;
-
 
     CustomAdapter(Activity activity,
                   Context context,
@@ -42,15 +40,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.meeldetuletus_kirjeldus = meeldetuletus_kirjeldus;
         this.meeldetuletus_kuupaev = meeldetuletus_kuupaev;
         this.meeldetuletus_kell = meeldetuletus_kell;
-
     }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.my_row, parent, false);
         return new MyViewHolder(view);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -71,11 +68,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("kuupaev", String.valueOf(meeldetuletus_kuupaev.get(position)));
                 intent.putExtra("kell", String.valueOf(meeldetuletus_kell.get(position)));
                 activity.startActivityForResult(intent, 1);
-
             }
-
         });
-
     }
 
     @Override

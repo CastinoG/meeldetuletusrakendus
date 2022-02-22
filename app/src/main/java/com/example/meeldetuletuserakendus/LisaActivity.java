@@ -2,13 +2,9 @@ package com.example.meeldetuletuserakendus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +12,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import java.time.Clock;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Objects;
 
 public class LisaActivity extends AppCompatActivity {
 
@@ -28,7 +22,7 @@ public class LisaActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     public String kuupaev = null;
     public String kell = null;
-    int hour, minute;
+    int tund, minut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +30,7 @@ public class LisaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lisa);
         initDatePicker();
         kuupaeva_nupp = findViewById(R.id.kuupaeva_nupp);
-
-
-
         kella_nupp = findViewById(R.id.kella_nupp);
-
         meeldetuletus_input = findViewById(R.id.meeldetuletus_input);
         kirjeldus_input = findViewById(R.id.kirjeldus_input);
         lisamise_nupp = findViewById(R.id.lisamise_nupp);
@@ -53,17 +43,17 @@ public class LisaActivity extends AppCompatActivity {
                         kirjeldus_input.getText().toString().trim(),
                         kuupaev.trim(),
                         kell.trim());
-
             }
         });
     }
+
     private String tananeKuupaev() {
-        Calendar cal = Calendar.getInstance();
-        int aasta = cal.get(Calendar.YEAR);
-        int kuu = cal.get(Calendar.MONTH);
+        Calendar kalender = Calendar.getInstance();
+        int aasta = kalender.get(Calendar.YEAR);
+        int kuu = kalender.get(Calendar.MONTH);
         kuu = kuu + 1;
-        int paev = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(paev, kuu, aasta);
+        int paev = kalender.get(Calendar.DAY_OF_MONTH);
+        return koostaKuupaevaString(paev, kuu, aasta);
     }
 
     private void initDatePicker() {
@@ -71,27 +61,21 @@ public class LisaActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int aasta, int kuu, int paev) {
                 int kuus = kuu + 1;
-                kuupaev = makeDateString(paev, kuus, aasta);
+                kuupaev = koostaKuupaevaString(paev, kuus, aasta);
                 kuupaeva_nupp.setText(kuupaev);
-
             }
         };
 
-        Calendar cal = Calendar.getInstance();
-        int aasta = cal.get(Calendar.YEAR);
-        int kuu = cal.get(Calendar.MONTH);
-        int paev = cal.get(Calendar.DAY_OF_MONTH);
-
+        Calendar kalender = Calendar.getInstance();
+        int aasta = kalender.get(Calendar.YEAR);
+        int kuu = kalender.get(Calendar.MONTH);
+        int paev = kalender.get(Calendar.DAY_OF_MONTH);
         int style = AlertDialog.THEME_HOLO_LIGHT;
-
         datePickerDialog = new DatePickerDialog(this, style, dateSetListener, aasta, kuu, paev);
-        datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
-
-
+        datePickerDialog.getDatePicker().setMinDate(kalender.getTimeInMillis());
     }
 
-
-    private String makeDateString(int paev, int kuu, int aasta) {
+    private String koostaKuupaevaString(int paev, int kuu, int aasta) {
         return paev + ". " + kuuNimetus(kuu) + " " + aasta;
     }
 
@@ -120,35 +104,25 @@ public class LisaActivity extends AppCompatActivity {
             return "november";
         if(kuu == 12)
             return "detsember";
-
         return "JAN";
     }
 
-    public void openDatePicker(View view) {
+    public void avaKuupaevaValija(View view) {
         datePickerDialog.show();
     }
 
-
-    public void popTimePicker(View view) {
+    public void avaAjaValija(View view) {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                hour = selectedHour;
-                minute = selectedMinute;
-                kella_nupp.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+            public void onTimeSet(TimePicker timePicker, int valitudTund, int valitudMinut) {
+                tund = valitudTund;
+                minut = valitudMinut;
+                kella_nupp.setText(String.format(Locale.getDefault(), "%02d:%02d", tund, minut));
                 kell = String.valueOf(kella_nupp.getText());
-
-
             }
         };
 
-        int style = AlertDialog.THEME_HOLO_LIGHT;
-
-
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, true);
-
-
-
+        int stiil = AlertDialog.THEME_HOLO_LIGHT;
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, stiil, onTimeSetListener, tund, minut, true);
         timePickerDialog.setTitle("Valige aeg");
         timePickerDialog.show();
     }

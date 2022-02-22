@@ -13,10 +13,8 @@
         android:layout_height="286dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/teal_200"
         android:clickable="true"
         android:focusable="true"
-        android:tint="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/recyclerView"
         app:srcCompat="@drawable/ic__add" />

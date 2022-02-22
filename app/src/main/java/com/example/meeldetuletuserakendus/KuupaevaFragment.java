@@ -21,9 +21,5 @@ public class KuupaevaFragment extends DialogFragment {
         int paev = c.get(Calendar.DAY_OF_MONTH);
         return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(),
                 aasta, kuu, paev);
-
-
     }
-
-
 }

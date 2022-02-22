@@ -1,23 +1,17 @@
 package com.example.meeldetuletuserakendus;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
@@ -25,28 +19,24 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton lisa_nupp, teavituse_nupp;
-
     MyDatabaseHelper myDB;
     ArrayList<String> meeldetuletus_id, meeldetuletus_pealkiri, meeldetuletus_kirjeldus, meeldetuletus_kuupaev, meeldetuletus_kell;
     CustomAdapter customAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
         recyclerView = findViewById(R.id.recyclerView);
+
+        this.setTitle("Märkmik");
+
         lisa_nupp = findViewById(R.id.lisa_nupp);
         lisa_nupp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, LisaActivity.class);
                 startActivity(intent);
-
             }
         });
 
@@ -81,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     void storeDataInArrays() {
-        Cursor cursor = myDB.readAllData();
+        Cursor cursor = myDB.loeInfot();
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "Andmed puuduvad", Toast.LENGTH_SHORT).show();
         } else {
@@ -93,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 meeldetuletus_kirjeldus.add(cursor.getString(2));
                 meeldetuletus_kuupaev.add(cursor.getString(3));
                 meeldetuletus_kell.add(cursor.getString(4));
-
             }
         }
     }

@@ -25,8 +25,6 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
     Button nupp_vali, nupp_katkesta;
     Calendar c;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +32,13 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
 
         nupp_vali = findViewById(R.id.button2);
         nupp_katkesta = findViewById(R.id.nupp_katkesta);
-
         c = Calendar.getInstance();
-
 
         nupp_vali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
-
             }
         });
 
@@ -52,15 +47,9 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
             public void onClick(View view) {
                 katkestaAlarm();
                 Toast.makeText(MeeldetuletusActivity.this, "Meeldetuletus unustatud", Toast.LENGTH_SHORT).show();
-
             }
         });
-
-
-
-
     }
-
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -70,9 +59,6 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
         alustaTeavitus(c);
         Toast.makeText(MeeldetuletusActivity.this, "Meeldetuletus tehtud", Toast.LENGTH_SHORT).show();
     }
-
-
-
 
     private void alustaTeavitus(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -91,7 +77,6 @@ public class MeeldetuletusActivity extends AppCompatActivity implements TimePick
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getApplicationContext(), 888888, myIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-
         alarmManager.cancel(pendingIntent);
     }
 }
