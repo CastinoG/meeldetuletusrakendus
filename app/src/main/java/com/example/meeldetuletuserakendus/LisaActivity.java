@@ -47,15 +47,6 @@ public class LisaActivity extends AppCompatActivity {
         });
     }
 
-    private String tananeKuupaev() {
-        Calendar kalender = Calendar.getInstance();
-        int aasta = kalender.get(Calendar.YEAR);
-        int kuu = kalender.get(Calendar.MONTH);
-        kuu = kuu + 1;
-        int paev = kalender.get(Calendar.DAY_OF_MONTH);
-        return koostaKuupaevaString(paev, kuu, aasta);
-    }
-
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
